@@ -1,7 +1,5 @@
 package nameless.team.utils.log;
 
-import nameless.team.utils.log.MyLogger;
-
 import java.util.Scanner;
 
 /**
