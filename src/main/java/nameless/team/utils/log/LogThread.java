@@ -56,8 +56,8 @@ public class LogThread extends Thread{
         }
     }
 
-    public void writeInNextLine(String data){
-        try(FileOutputStream fout = new FileOutputStream(new File(staticFileName),true);){
+    private void writeInNextLine(String data){
+        try(FileOutputStream fout = new FileOutputStream(new File(staticFileName),true)){
             fout.write(data.getBytes());
             fout.write("\r\n".getBytes());
             fout.close();
@@ -66,8 +66,8 @@ public class LogThread extends Thread{
         }
     }
 
-    public void writeLineList(List<String> datas){
-        try(FileOutputStream fout = new FileOutputStream(new File(staticFileName),true);){
+    private void writeLineList(List<String> datas){
+        try(FileOutputStream fout = new FileOutputStream(new File(staticFileName),true)){
             for (String data:datas){
                 fout.write(data.getBytes());
                 fout.write("\r\n".getBytes());

@@ -13,6 +13,7 @@ public class MyLoggerTest {
         MyLogger myLogger = new MyLogger("log.log");
 
         Scanner scanner = new Scanner(System.in);
+        int i = 0;
         while(scanner.hasNextLine()){
             myLogger.info(scanner.nextLine());
         }

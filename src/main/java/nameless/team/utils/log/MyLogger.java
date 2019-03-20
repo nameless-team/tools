@@ -32,22 +32,34 @@ public class MyLogger {
         logThread.start();
     }
 
+    /**
+     * INFO级别日志
+     * @param log           日志内容
+     */
     public void info(String log){
         write(Level.INFO,log);
     }
 
+    /**
+     * ERROR级别日志
+     * @param log           日志内容
+     */
     public void error(String log){
         write(Level.ERROR,log);
     }
 
+    /**
+     * DEBUG级别日志
+     * @param log           日志内容
+     */
     public void debug(String log){
         write(Level.DEBUG,log);
     }
 
     /**
      * 多线程写，同步锁，尽可能保证高效
-     * @param level
-     * @param log
+     * @param level         日志级别
+     * @param log           日志内容
      */
     private synchronized void write(Level level ,String log){
         StackTraceElement[] stacks = Thread.currentThread().getStackTrace();
@@ -66,8 +78,8 @@ public class MyLogger {
     }
 
     /**
-     * LogThread 串行读取，不影响多线程写的问题
-     * @return
+     * LogThread    串行读取，不影响多线程写的问题
+     * @return      获取日志对象LogEntry
      */
     public static LogEntry read(){
 
