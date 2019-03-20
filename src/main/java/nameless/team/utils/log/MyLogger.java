@@ -1,8 +1,5 @@
 package nameless.team.utils.log;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -12,58 +9,72 @@ import java.util.List;
  * @Description:
  */
 public class MyLogger {
-    private String fileName;
 
-    public static List<String> logList = new LinkedList<>();
+    //日志缓存
+    private static List<LogEntry> logList = new LinkedList<>();
 
+    /**
+     *
+     * @param fileName      fileName
+     */
     public MyLogger(String fileName) {
-        this.fileName = fileName;
-        LogThread logThread = new LogThread();
+        LogThread logThread = LogThread.newInstance(fileName,null);
         logThread.start();
     }
 
-    public void write(String log){
-        logList.add(log);
+    /**
+     *
+     * @param fileName      fileName
+     * @param format        format
+     */
+    public MyLogger(String fileName,String format) {
+        LogThread logThread = LogThread.newInstance(fileName,null);
+        logThread.start();
     }
 
-    public static String read(){
+    public void info(String log){
+        write(Level.INFO,log);
+    }
+
+    public void error(String log){
+        write(Level.ERROR,log);
+    }
+
+    public void debug(String log){
+        write(Level.DEBUG,log);
+    }
+
+    /**
+     * 多线程写，同步锁，尽可能保证高效
+     * @param level
+     * @param log
+     */
+    private synchronized void write(Level level ,String log){
+        StackTraceElement[] stacks = Thread.currentThread().getStackTrace();
+        int current = stacks.length-1;
+
+        LogEntry logEntry = new LogEntry();
+        logEntry.setLogEntry(
+                Thread.currentThread().getId(),
+                stacks[current].getClassName(),
+                stacks[current].getMethodName(),
+                stacks[current].getLineNumber(),
+                level,
+                log);
+
+        logList.add(logEntry);
+    }
+
+    /**
+     * LogThread 串行读取，不影响多线程写的问题
+     * @return
+     */
+    public static LogEntry read(){
 
         if(logList.size()>0){
             return logList.remove(0);
         }else {
             return null;
-        }
-    }
-
-    class LogThread extends Thread{
-        private LogThread(){}
-
-        public void run(){
-            System.out.println(" LogThread start");
-            while (true){
-                String log = MyLogger.read();
-                if(null!=log){
-                    writeInNextLine(log);
-                }
-                try{
-                    Thread.sleep(1);
-                }catch (InterruptedException ie){
-                    System.out.println("InterruptedException");
-                }
-            }
-        }
-        public void writeInNextLine(String data){
-            FileOutputStream fout = null;
-            try{
-                fout = new FileOutputStream(new File(fileName),true);
-                fout.write(data.getBytes());
-                fout.write("\r\n".getBytes());
-                fout.close();
-            }catch (IOException ie){
-                System.out.println("IOException:"+ie);
-            }finally {
-                fout = null;
-            }
         }
     }
 }

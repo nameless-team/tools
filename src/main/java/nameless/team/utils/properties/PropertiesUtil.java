@@ -8,7 +8,7 @@ import java.util.Properties;
 /**
  * @Auther: cujamin
  * @Date: 2018/10/26 17:16
- * @Description:
+ * @Description: 读取（配置）文件数据
  */
 public class PropertiesUtil {
     private static Properties properties;

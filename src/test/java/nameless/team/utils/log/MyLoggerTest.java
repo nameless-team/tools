@@ -11,10 +11,10 @@ public class MyLoggerTest {
     public static void main(String[] args) {
 
         MyLogger myLogger = new MyLogger("log.log");
+
         Scanner scanner = new Scanner(System.in);
         while(scanner.hasNextLine()){
-            myLogger.write("log:"+scanner.nextLine());
+            myLogger.info(scanner.nextLine());
         }
     }
-
 }
