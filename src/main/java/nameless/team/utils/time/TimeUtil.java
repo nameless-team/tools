@@ -13,6 +13,16 @@ public class TimeUtil {
     public final static DateFormat timeFormat = new SimpleDateFormat(TIME_PATTERN);
 
 
+    public static String getCurrentDateTimeStr(){
+        return timeFormat.format(System.currentTimeMillis());
+    }
+
+    public static String getCurrentDateTimeStr(String datePattern){
+        DateFormat timeFormat = new SimpleDateFormat(datePattern);
+        return timeFormat.format(System.currentTimeMillis());
+    }
+
+
     public static long getTimeStamp(String timeStr)throws ParseException
     {
         long timeStamp=0L;

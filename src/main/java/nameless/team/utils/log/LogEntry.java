@@ -1,11 +1,14 @@
 package nameless.team.utils.log;
 
+import nameless.team.utils.time.TimeUtil;
+
 /**
  * @Auther: cujamin
  * @Date: 2019/3/20 15:42
  * @Description:
  */
 public class LogEntry{
+    private String dateStr;
     private long threadId;
     private String className;
     private String methodName;
@@ -23,6 +26,7 @@ public class LogEntry{
      * @param log               日志内容
      */
     public void setLogEntry(long threadId, String className, String methodName, int lineNumber, Level level, String log) {
+        this.dateStr= TimeUtil.getCurrentDateTimeStr();
         this.threadId = threadId;
         this.className = className;
         this.methodName = methodName;
@@ -39,8 +43,8 @@ public class LogEntry{
     public String getFullLog(String format){
         StringBuilder stringBuilder = new StringBuilder();
         if(null==format){
-            stringBuilder.append("threadId=").append(threadId)
-                    .append("-").append(className)
+            stringBuilder.append(dateStr).append(" ").append("Tid=").append(threadId)
+                    .append(" ").append(className)
                     .append(":").append(methodName).append("(").append(lineNumber)
                     .append(")[").append(level).append("]")
                     .append(log);
